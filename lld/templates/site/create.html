@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}New Site{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+  <label for="site_name">Site name</label>
+  <input name="site_name" id="site_name" value="{{ request.form['site_name'] }}" required>
+  <label for="description">Description</label>
+  <textarea name="description" id="description">{{ request.form['description'] }}</textarea>
+  <label for="lon">Longitude</label>
+  <input name="lon" id="lon" value="{{ request.form['lon'] }}" required>
+  <label for="lat">Latitude</label>
+  <input name="lat" id="lat" value="{{ request.form['lat'] }}" required>
+  <input type="submit" value="Save">
+</form>
+{% endblock %}

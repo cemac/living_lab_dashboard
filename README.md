@@ -24,6 +24,32 @@
 <!-- Software / Hardware -->
 <!-- Requirements.txt files -->
 
+# Installation #
+
+``` bash
+git clone git@github.com:cemac/living_lab_dashboard.git
+cd living_lab_dashboard
+```
+
+Install Python environment using Anaconda/Miniconda:
+
+``` bash
+conda env create -f environment.yml
+conda activate lld
+```
+
+Set environment variable specifying where to find the application and initialise database:
+
+``` bash
+export FLASK_APP=lld
+flask init-db
+```
+
+Run application in development mode:
+
+``` bash
+flask run
+```
 
 # Citing this work #
 

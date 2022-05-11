@@ -1,0 +1,28 @@
+DROP TABLE IF EXISTS site;
+DROP TABLE IF EXISTS sensor;
+DROP TABLE IF EXISTS user;
+
+CREATE TABLE user (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+username TEXT UNIQUE NOT NULL,
+password TEXT NOT NULL
+);
+
+CREATE TABLE site (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+site_name TEXT NOT NULL,
+description TEXT,
+lat REAL NOT NULL,
+lon REAL NOT NULL
+/* user_id - created by user? */
+);
+
+CREATE TABLE sensor (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+site_id INTEGER NOT NULL,
+sensor_type TEXT NOT NULL,
+sensor_name TEXT NOT NULL,
+display_name TEXT NOT NULL,
+description TEXT NOT NULL,
+FOREIGN KEY (site_id) REFERENCES site (id)
+);

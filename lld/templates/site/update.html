@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Edit site<!-- "{{ site['site_name'] }}" -->{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+  <label for="site_name">Site name</label>
+  <input name="site_name" id="site_name"
+         value="{{ request.form['site_name'] or site['site_name'] }}" required>
+  <label for="description">Description</label>
+  <textarea name="description" id="description">{{ request.form['description'] or site['description'] }}</textarea>
+  <label for="lon">Longitude</label>
+  <input name="lon" id="lon"
+         value="{{ request.form['lon'] or site['lon'] }}" required>
+  <label for="lat">Latitude</label>
+  <input name="lat" id="lat"
+         value="{{ request.form['lat'] or site['lat'] }}" required>
+  <input type="submit" value="Save">
+</form>
+<hr>
+<form action="{{ url_for('sensor.create', site_id=site['id']) }}">
+  <input type="submit" value="Add instrument">
+</form>
+<hr>
+<form action="{{ url_for('site.delete', id=site['id']) }}" method="post">
+  <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+</form>
+{% endblock %}

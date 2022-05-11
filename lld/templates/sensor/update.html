@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Edit sensor<!-- "{{ sensor['sensor_name'] }}" -->{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+  <label for="sensor_name">Sensor name</label>
+  <input name="sensor_name" id="sensor_name"
+         value="{{ request.form['sensor_name'] or sensor['sensor_name'] }}" required>
+  <label for="sensor_name">Sensor type</label>
+  <input name="sensor_type" id="sensor_type"
+         value="{{ request.form['sensor_type'] or sensor['sensor_type'] }}" required>
+  <label for="description">Description</label>
+  <textarea name="description" id="description">{{ request.form['description'] or sensor['description'] }}</textarea>
+  <label for="sensor_name">Display name</label>
+  <input name="display_name" id="display_name"
+         value="{{ request.form['display_name'] or sensor['display_name'] }}" required>
+  <input type="submit" value="Save">
+</form>
+<hr>
+<form action="{{ url_for('sensor.delete', id=sensor['id']) }}" method="post">
+  <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+</form>
+{% endblock %}

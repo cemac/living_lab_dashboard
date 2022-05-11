@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h2>
+  {% block title %}
+  {{ site['site_name'] }}
+  {% endblock %}
+  {% if g.user %}
+  <!-- TODO check authorized as editor -->
+  <a class="edit site-edit" href="{{ url_for('site.update', id=site['id']) }}">Edit</a>
+  {% endif %}
+</h2>
+{% endblock %}
+
+{% block content %}
+
+<!-- Site metadata -->
+<div id="map" class="map site-map"></div>
+
+
+<table class="metadata site-metadata">
+  <!-- <tr> -->
+  <!--   <th>Site name</th> <td>{{ site['site_name'] }}</td> -->
+  <!-- </tr> -->
+  <tr>
+    <th>Coordinates</th> <td>{{ "{:.2f}, {:.2f}".format(site['lat'], site['lon']) }}</td>
+  </tr>
+  <tr>
+    <th>Description</th> <td>{{ site['description'] }}</td>
+  </tr>
+</table>
+
+<h3>Sensors</h3>
+<ul>
+{% for sensor in sensors %}
+<li>
+  <a href="{{ url_for('sensor.index', sensor_id=sensor['id']) }}">{{ sensor['display_name'] }}</a>
+</li>
+{% endfor %}
+</ul>
+
+
+<p><a href="site/{{ site['id'] }}/view_data">View data</a></p>
+
+<ul class="tabbed_panels">
+  <li><a href="#">BC1</a>
+    <p>
+      Description of BC1 FloPro water monitoring meter
+    </p>
+    <ul>
+      <li><a href="#">Velocity m/s</a>
+        <div id="sensor1_chart1" class="chart"></div>
+      </li>
+      <li><a href="#">Flow rate ml/day</a>
+        <div id="sensor1_chart2" class="chart"></div>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#">BC2</a>
+    <p>
+      Description of BC2 FloPro water monitoring meter
+    </p>
+  </li>
+  <li><a href="#">Weatherlink</a>
+    <p>
+      Description of Weatherlink station
+    </p>
+  </li>
+</ul>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script type="text/javascript">
+  mymap.setView([{{ site['lat'] }}, {{ site['lon'] }}], 12)
+
+  // Add tooltip for this site
+  let tooltip =
+      '<a href="{{ url_for('site.index', id=site['id']) }}">{{ site['site_name'] }}</a>' +
+      '<br/>Latitude: ' + {{ site['lat'] }}.toFixed(6) +
+      '<br/>Longitude: ' + {{ site['lon'] }}.toFixed(6) +
+      //'<br/>Sensors: ' +
+      //{% for sensor in sensors %}
+      //'<a href="{{ url_for('sensor.index', sensor_id=sensor['id']) }}">{{ sensor['display_name'] }}</a> ' +
+      //{% endfor %}
+      '<br/>Latest observation: ' + new Date('2021-08-26 16:30').toUTCString() +
+      '<br/><a href="site/{{ site['id'] }}/view_data">View data</a>';
+
+  // Add marker for site
+  // Using bindPopup() instead of bindTooltip() so that you can mouse in to access links
+  var marker = L.marker([{{ site['lat'] }}, {{ site['lon'] }}])
+    .addTo(mymap)
+    .bindPopup(tooltip);
+</script>
+{% endblock %}

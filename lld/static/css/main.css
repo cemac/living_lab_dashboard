@@ -1,0 +1,115 @@
+body {
+    font-family: Helvetica, sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+nav {
+    background: #cae6f6;
+    display: flex;
+    align-items: center;
+    padding: 0.3rem 0.8rem;
+}
+
+nav h1 {
+    flex: auto;
+    margin: 0;
+    text-align: left;
+}
+
+nav h1 a {
+    text-decoration: none;
+    /*padding: 0.25rem 0.5rem;*/
+    color: #000;
+}
+
+nav ul  {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.8em;
+}
+
+nav ul li a, nav ul li span, header .action {
+    display: block;
+    padding: 0.5rem;
+}
+
+.content {
+    margin: 0 1rem 1rem;
+}
+
+.content > header {
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    align-items: flex-end;
+    margin: 0 0 1rem 0;
+}
+
+.content form {
+    margin: 1em 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.content label {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.content input, .content textarea {
+    margin-bottom: 1em;
+}
+
+.content textarea {
+    min-height: 12em;
+    resize: vertical;
+}
+
+input.danger {
+    color: #cc2f2e;
+}
+
+input[type=submit] {
+    align-self: start;
+    min-width: 10em;
+}
+
+.flash {
+    margin: 1em 0;
+    padding: 1em;
+    background: #cae6f6;
+    border: 1px solid #377ba8;
+}
+
+footer {
+    margin: 2em 1rem;
+    font-size: smaller;
+}
+
+/* Set height of leaflet map */
+#map { height: 560px; }
+
+#map.site-map {
+    height: 300px;
+    width: 400px;
+    float: right;
+}
+
+a.edit {
+    font-weight: normal;
+    font-size: 1rem;
+}
+
+table.metadata {
+    margin-bottom: 1em;
+}
+
+table.metadata th, table.metadata td {
+    text-align: left;
+    vertical-align: top;
+    padding: 0.3rem 1rem 0.3rem 0;
+}

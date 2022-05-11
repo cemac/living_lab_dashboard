@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h2>
+  {% block title %}
+  {{ sensor['display_name']}}
+  {% endblock %}
+  {% if g.user %}
+  <!-- TODO check authorized as editor -->
+  <a class="edit sensor-edit" href="{{ url_for('sensor.update', id=sensor['id']) }}">Edit</a>
+  {% endif %}
+</h2>
+{% endblock %}
+
+{% block content %}
+
+<!-- Sensor metadata -->
+
+<table class="metadata sensor-metadata">
+  <tr>
+    <th>Sensor name</th> <td>{{ sensor['sensor_name'] }}</td>
+  </tr>
+  <tr>
+    <th>Sensor type</th> <td>{{ sensor['sensor_type'] }}</td>
+  </tr>
+  <tr>
+    <th>Description</th> <td>{{ sensor['description'] }}</td>
+  </tr>
+  <tr>
+    <th>Location</th> <td><a href="{{ url_for('site.index', id=sensor['site_id']) }}">{{ sensor['site_name'] }}</a></td>
+  </tr>
+</table>
+
+<div class="sensor-data tabpanel">
+<ul class="nav nav-pills" role="tablist">
+  <!-- loop through fields associated with sensor -->
+  {% for col in data.columns %}
+  <li role="presentation" class="{% if col == var %}active{% endif %}">
+    <a href="/sensor/{{ sensor['id'] }}/{{ col }}" role="tab">{{ col }}</a>
+  </li>
+  {% endfor %}
+  <!-- <li><a href="#">Velocity m/s</a> -->
+  <!--   <div id="sensor1_chart1" class="chart"></div> -->
+  <!-- </li> -->
+  <!-- <li><a href="#">Flow rate ml/day</a> -->
+  <!--   <div id="sensor1_chart2" class="chart"></div> -->
+  <!-- </li> -->
+</ul>
+<!-- Insert chart here -->
+<div class="tab-content">
+  <div id="chart" class="chart tab-pane active"></div>
+</div>
+
+</div>
+
+<p><a href="sensor/{{ sensor['id'] }}/view_data">View data</a></p>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript">
+  var graphs = {{chart | safe}};
+  Plotly.plot('chart', graphs, {});
+</script>
+{% endblock %}

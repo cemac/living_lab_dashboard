@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}New Instrument{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+  <input type="hidden" name="site_id" id="site_id" value="{{ site_id }}">
+  <label for="sensor_name">Instrument name</label>
+  <input name="sensor_name" id="sensor_name" value="{{ request.form['sensor_name'] }}" required>
+  <label for="sensor_type">Instrument type</label>
+  <input name="sensor_type" id="sensor_type" value="{{ request.form['sensor_type'] }}" required>
+  <label for="description">Description</label>
+  <textarea name="description" id="description">{{ request.form['description'] }}</textarea>
+  <label for="display_name">Display name</label>
+  <input name="display_name" id="display_name" value="{{ request.form['display_name'] }}" required>
+  <input type="submit" value="Save">
+</form>
+{% endblock %}
