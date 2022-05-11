@@ -30,43 +30,42 @@
   </tr>
 </table>
 
-<h3>Sensors</h3>
+<h3>Instruments</h3>
 <ul>
 {% for sensor in sensors %}
 <li>
-  <a href="{{ url_for('sensor.index', sensor_id=sensor['id']) }}">{{ sensor['display_name'] }}</a>
+  <a href="{{ url_for('sensor.index', sensor_id=sensor['id']) }}">{{ sensor['display_name'] }}</a> {{ sensor['description'] }}
 </li>
 {% endfor %}
 </ul>
 
+<!-- <p><a href="site/{{ site['id'] }}/view_data">View data</a></p> -->
 
-<p><a href="site/{{ site['id'] }}/view_data">View data</a></p>
-
-<ul class="tabbed_panels">
-  <li><a href="#">BC1</a>
-    <p>
-      Description of BC1 FloPro water monitoring meter
-    </p>
-    <ul>
-      <li><a href="#">Velocity m/s</a>
-        <div id="sensor1_chart1" class="chart"></div>
-      </li>
-      <li><a href="#">Flow rate ml/day</a>
-        <div id="sensor1_chart2" class="chart"></div>
-      </li>
-    </ul>
-  </li>
-  <li><a href="#">BC2</a>
-    <p>
-      Description of BC2 FloPro water monitoring meter
-    </p>
-  </li>
-  <li><a href="#">Weatherlink</a>
-    <p>
-      Description of Weatherlink station
-    </p>
-  </li>
-</ul>
+<!-- <ul class="tabbed_panels"> -->
+<!--   <li><a href="#">BC1</a> -->
+<!--     <p> -->
+<!--       Description of BC1 FloPro water monitoring meter -->
+<!--     </p> -->
+<!--     <ul> -->
+<!--       <li><a href="#">Velocity m/s</a> -->
+<!--         <div id="sensor1_chart1" class="chart"></div> -->
+<!--       </li> -->
+<!--       <li><a href="#">Flow rate ml/day</a> -->
+<!--         <div id="sensor1_chart2" class="chart"></div> -->
+<!--       </li> -->
+<!--     </ul> -->
+<!--   </li> -->
+<!--   <li><a href="#">BC2</a> -->
+<!--     <p> -->
+<!--       Description of BC2 FloPro water monitoring meter -->
+<!--     </p> -->
+<!--   </li> -->
+<!--   <li><a href="#">Weatherlink</a> -->
+<!--     <p> -->
+<!--       Description of Weatherlink station -->
+<!--     </p> -->
+<!--   </li> -->
+<!-- </ul> -->
 
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 <script type="text/javascript">

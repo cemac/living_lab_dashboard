@@ -3,21 +3,31 @@ from flask import current_app, g
 import pandas as pd
 import numpy as np
 
+def get_data_path(site_name, sensor_name):
+    '''
+    Use site and sensor name to construct path to data
+    '''
+    data_path = "/".join([
+        current_app.config['DATA_PATH'],
+        site_name,
+        sensor_name,
+        sensor_name
+    ])
+    data_path = data_path.replace(' ', '_')
+
+    return data_path
+
 
 def get_data(sensor):
-
-    # Use site and sensor name to construct path to data
-    fp = "/".join(["data", sensor['site_name'], sensor['sensor_name'], sensor['sensor_name'] + ".csv"])
-    fp = fp.replace(' ', '_')
 
     # TODO replace below with call to data handling methods as appropriate
 
     # TODO find index of line starting with !Names
     index = 7
+    fp = get_data_path(sensor['site_name'], sensor['sensor_name']) + ".csv"
     columns = pd.read_csv(current_app.open_resource(fp), header=index, nrows=index).columns[1:]
 
     # TODO read metadata section and extract info e.g. units
-
     df = pd.read_csv(
         current_app.open_resource(fp),
         comment="!",  # skip metadata section

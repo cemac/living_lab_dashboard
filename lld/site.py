@@ -18,10 +18,10 @@ def index(id = None):
     if id is not None:
         site = get_site(id)
         sensors = db.execute(
-            'SELECT s.id, s.sensor_name, s.display_name, s.site_id'
+            'SELECT s.id, s.sensor_name, s.display_name, s.site_id, s.description'
             ' FROM sensor s JOIN site i ON s.site_id = i.id'
-            ' WHERE s.id = ?'
-            ' ORDER BY sensor_name DESC',
+            ' WHERE i.id = ?'
+            ' ORDER BY display_name',
             (id,)
         ).fetchall()
 
@@ -41,7 +41,7 @@ def index(id = None):
         sensors = db.execute(
             'SELECT s.id, s.sensor_name, s.display_name, s.site_id'
             ' FROM sensor s JOIN site i ON s.site_id = i.id'
-            ' ORDER BY site_id, sensor_name DESC'
+            ' ORDER BY site_id, display_name'
         ).fetchall()
 
         sensors_grouped = {}

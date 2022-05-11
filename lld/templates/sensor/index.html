@@ -31,6 +31,7 @@
   </tr>
 </table>
 
+{% if data is defined %}
 <div class="sensor-data tabpanel">
 <ul class="nav nav-pills" role="tablist">
   <!-- loop through fields associated with sensor -->
@@ -60,4 +61,5 @@
   var graphs = {{chart | safe}};
   Plotly.plot('chart', graphs, {});
 </script>
+{% endif %}
 {% endblock %}

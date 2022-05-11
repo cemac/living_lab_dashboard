@@ -24,12 +24,16 @@ def index(sensor_id, var):
         ' ORDER BY sensor_name DESC', (sensor_id,)
     ).fetchone()
 
-    data = get_data(sensor)
-    if var is None:
-        var = data.columns[0]
-    chart = make_chart(data, sensor, var)
-    
-    return render_template('sensor/index.html', sensor=sensor, data=data, chart=chart, var=var)
+    try:
+        data = get_data(sensor)
+        if var is None:
+            var = data.columns[0]
+        chart = make_chart(data, sensor, var)
+        return render_template('sensor/index.html', sensor=sensor, data=data, chart=chart, var=var)
+    except FileNotFoundError:
+        error = f"Couldn't find data file for sensor {sensor['sensor_name']}"
+        flash(error)
+        return render_template('sensor/index.html', sensor=sensor)
 
 
 @bp.route('/<int:site_id>/create', methods=('GET', 'POST'))
@@ -101,7 +105,7 @@ def update(id):
                  description, display_name, id)
             )
             db.commit()
-            return redirect(url_for('sensor.index', id=id))
+            return redirect(url_for('sensor.index', sensor_id=id))
 
     return render_template('sensor/update.html', sensor=sensor)
 
