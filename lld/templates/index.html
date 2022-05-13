@@ -35,23 +35,26 @@
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 <script type="text/javascript">
   {% for site in sites %}
-  console.log({{ site['id']}})
   // Create tooltip with information on the site
-  // Get info on sensors for the site from db
-  // TODO link from site name to index page for site; link from sensor name to page displaying sensor data
   // TODO display time of latest observation
-  // TODO add 'View data' link
+  // TODO add 'View data' link?
   let tooltip =
+      // Link from site name to index page for site
       '<a href="{{ url_for('site.index', id=site['id']) }}">{{ site['site_name'] }}</a>' +
-      '<br/>Latitude: ' + {{ site['lat'] }}.toFixed(6) +
-      '<br/>Longitude: ' + {{ site['lon'] }}.toFixed(6) +
-    '<br/>Sensors: ' +
+      '<br/>Latitude: ' + {{ site['lat'] }}.toFixed(2) +
+      '<br/>Longitude: ' + {{ site['lon'] }}.toFixed(2) +
+      '<br/>Sensors: ' +
       {% for sensor in sensors %}
-  '<a href="{{ url_for('sensor.index', sensor_id=sensor['id']) }}">{{ sensor['display_name'] }}</a>' +
-      {% if not loop.last %} ', ' + {% endif %}
-    {% endfor %}
-    '<br/>Latest observation: ' + new Date('2021-08-26 16:30').toUTCString() +
-    '<br/><a href="site/{{ site['id'] }}/view_data">View data</a>';
+        // Link from sensor name to page displaying sensor data
+        '<a href="{{ url_for('sensor.index', sensor_id=sensor['id']) }}">{{ sensor['display_name'] }}</a>' +
+        {% if not loop.last %}
+          ', ' +
+        {% else %}
+          '';
+        {% endif %}
+      {% endfor %}
+      // '<br/>Latest observation: ' + new Date('2021-08-26 16:30').toUTCString() +
+      // '<br/><a href="site/{{ site['id'] }}/view_data">View data</a>';
 
   // Add marker for site
   // Using bindPopup() instead of bindTooltip() so that you can mouse in to access links
