@@ -3,7 +3,7 @@ from flask import current_app, g
 import pandas as pd
 import numpy as np
 
-def get_data_path(site_name, sensor_name):
+def get_data_path(site_name, sensor_name, suffix = ".csv"):
     '''
     Use site and sensor name to construct path to data
     '''
@@ -13,7 +13,7 @@ def get_data_path(site_name, sensor_name):
         sensor_name,
         sensor_name
     ])
-    data_path = data_path.replace(' ', '_')
+    data_path = data_path.replace(' ', '_') + suffix
 
     return data_path
 
@@ -24,7 +24,7 @@ def get_data(sensor):
 
     # TODO find index of line starting with !Names
     index = 7
-    fp = get_data_path(sensor['site_name'], sensor['sensor_name']) + ".csv"
+    fp = get_data_path(sensor['site_name'], sensor['sensor_name'])
     columns = pd.read_csv(current_app.open_resource(fp), header=index, nrows=index).columns[1:]
 
     # TODO read metadata section and extract info e.g. units
@@ -48,7 +48,28 @@ def get_data(sensor):
     types = dict(map(lambda t: (t, np.float64), df.columns))
     df = df.astype(types)
 
-    # TODO enable correction of variables in admin UI?
-    df = df.rename(columns={'Velcoity':'Velocity'})
+    # Get metadata about columns for fixing variable names etc
+    # TODO enable specification of variables in admin UI?
+    columns = {}
+    try:
+        # Read variable names and units from metadata file
+        md_path = get_data_path(sensor['site_name'], sensor['sensor_name'],
+                                suffix="-metadata.csv")
+        metadata = pd.read_csv(current_app.open_resource(md_path)).set_index('column_name').to_dict()
 
-    return df
+        # Create lookup from initial column name to display name
+        columns = metadata['name']
+
+        # Create lookup from display name to units
+        units = { value: metadata['units'][key]
+                  for key, value in metadata['name'].items() }
+
+        # Drop unspecified columns
+        df = df.drop(df.columns.difference(columns.keys()), axis=1)
+    except FileNotFoundError:
+        columns = {'Velcoity':'Velocity'}
+
+    # Clean up column names
+    df = df.rename(columns=columns)
+
+    return df, units

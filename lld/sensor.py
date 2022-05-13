@@ -25,10 +25,13 @@ def index(sensor_id, var):
     ).fetchone()
 
     try:
-        data = get_data(sensor)
+        data, metadata = get_data(sensor)
         if var is None:
+            # Default to variable in first column
             var = data.columns[0]
-        chart = make_chart(data, sensor, var)
+        # Get units from metadata for display in chart
+        units = metadata[var]
+        chart = make_chart(data, sensor, var, units)
         return render_template('sensor/index.html', sensor=sensor, data=data, chart=chart, var=var)
     except FileNotFoundError:
         error = f"Couldn't find data file for sensor {sensor['sensor_name']}"

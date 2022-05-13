@@ -6,13 +6,14 @@ import plotly
 import plotly.express as px
 
 
-def make_chart(df, sensor, var):
+def make_chart(df, sensor, var, units):
 
     # TODO determine appropriate plot from sensor type
 
     # Create pond sensor plot
-    # TODO read in units from metadata section and display in title/y axis label
-    fig = px.line(df, x=df.index, y=var, title=f'{sensor["display_name"]}: {var}')
+    fig = px.line(df, x=df.index, y=var,
+                  labels={ df.index.name: 'Date', var: f'{var} ({units})' },
+                  title=f'{sensor["display_name"]}: {var}')
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
     return graphJSON

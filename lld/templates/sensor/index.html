@@ -37,6 +37,7 @@
   <!-- loop through fields associated with sensor -->
   {% for col in data.columns %}
   <li role="presentation" class="{% if col == var %}active{% endif %}">
+    <!-- FIXME need to escape column name in URL? -->
     <a href="/sensor/{{ sensor['id'] }}/{{ col }}" role="tab">{{ col }}</a>
   </li>
   {% endfor %}
