@@ -2,15 +2,29 @@ body {
     font-family: Helvetica, sans-serif;
 }
 
+header {
+    display: flex !important;
+    align-items: center;
+    background: #cae6f6;
+}
+
+#logo {
+    margin: 12px 12px 14px;
+}
+
 h1 {
     text-align: center;
 }
 
+h2 {
+    padding-bottom: 10px;
+    border-bottom: 1px solid lightgray;
+}
+
 nav {
-    background: #cae6f6;
-    display: flex;
     align-items: center;
     padding: 0.3rem 0.8rem;
+    flex: auto;
 }
 
 nav h1 {
@@ -33,20 +47,13 @@ nav ul  {
     font-size: 0.8em;
 }
 
-nav ul li a, nav ul li span, header .action {
+nav ul li a, nav ul li span, .header .action {
     display: block;
     padding: 0.5rem;
 }
 
 .content {
     margin: 0 1rem 1rem;
-}
-
-.content > header {
-    border-bottom: 1px solid lightgray;
-    display: flex;
-    align-items: flex-end;
-    margin: 0 0 1rem 0;
 }
 
 .content form {
@@ -91,7 +98,10 @@ footer {
 }
 
 /* Set height of leaflet map */
-#map { height: 560px; }
+#map {
+    height: 560px;
+    margin-bottom: 1em;
+}
 
 #map.site-map {
     height: 300px;

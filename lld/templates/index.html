@@ -3,7 +3,7 @@
 {% block title %}Home{% endblock %}
 
 {% block header %}
-<h1></h1>
+<br>
 {% endblock %}
 
 {% block content %}
@@ -47,7 +47,8 @@
       '<br/>Longitude: ' + {{ site['lon'] }}.toFixed(6) +
     '<br/>Sensors: ' +
       {% for sensor in sensors %}
-  '<a href="{{ url_for('sensor.index', sensor_id=sensor['id']) }}">{{ sensor['display_name'] }}</a> ' +
+  '<a href="{{ url_for('sensor.index', sensor_id=sensor['id']) }}">{{ sensor['display_name'] }}</a>' +
+      {% if not loop.last %} ', ' + {% endif %}
     {% endfor %}
     '<br/>Latest observation: ' + new Date('2021-08-26 16:30').toUTCString() +
     '<br/><a href="site/{{ site['id'] }}/view_data">View data</a>';
